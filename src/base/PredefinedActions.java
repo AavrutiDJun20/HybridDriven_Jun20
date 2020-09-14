@@ -12,9 +12,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class PredefinedActions {
 
-	static WebDriver driver;
-	static Actions action;
-	static WebDriverWait wait;
+	private static WebDriver driver;
+	private static Actions action;
+	private static WebDriverWait wait;
 
 	public static void initializeBrowser(String url) {
 		String os = System.getProperty("os.name").toLowerCase();
@@ -30,11 +30,18 @@ public abstract class PredefinedActions {
 		wait = new WebDriverWait(driver,60000);
 	}
 
-	protected void hoverToElement(WebElement target) {
-		action.moveToElement(target).perform();
+	private String getLocatorType(String locator) {
+		return locator.split("]:-")[0].substring(1);
+	}
+	
+	private String getLocatorValue(String locator) {
+		return locator.split("]:-")[1];
 	}
 
-	protected WebElement getElement(String locatorType, String locatorValue, boolean isWaitRequired) {
+	protected WebElement getElement(String locator, boolean isWaitRequired) {
+		String locatorType = getLocatorType(locator);
+		String locatorValue = getLocatorValue(locator);
+		
 		switch(locatorType.toUpperCase()) {
 		case "XPATH" :
 			if(isWaitRequired)
@@ -72,21 +79,25 @@ public abstract class PredefinedActions {
 		}		
 	}
 
-	protected WebElement getElement(String locatorType, String locatorValue) {
-		return getElement(locatorType, locatorValue, false);
+	protected WebElement getElement(String locator) {
+		return getElement(locator, false);
+	}
+	
+	protected void hoverToElement(WebElement target) {
+		action.moveToElement(target).perform();
 	}
 	
 	protected void switchToFrameByElement(WebElement frameElement) {
 		driver.switchTo().frame(frameElement);
 	}
 
-	protected void switchToFrameByElement(String locatorType, String locatorValue, boolean isWaitRequired) {
-		WebElement frameElement = getElement(locatorType, locatorValue, isWaitRequired);
+	protected void switchToFrameByElement(String locator, boolean isWaitRequired) {
+		WebElement frameElement = getElement(locator, isWaitRequired);
 		switchToFrameByElement(frameElement);
 	}
 	
-	protected void switchToFrameByElement(String locatorType, String locatorValue) {
-		WebElement frameElement = getElement(locatorType, locatorValue, false);
+	protected void switchToFrameByElement(String locator) {
+		WebElement frameElement = getElement(locator, false);
 		switchToFrameByElement(frameElement);
 	}
 	
@@ -100,6 +111,25 @@ public abstract class PredefinedActions {
 	
 	protected void switchToWindow(String windowId) {
 		driver.switchTo().window(windowId);
+	}
+	
+	protected void clickOnElement(String locator, boolean isWaitRequired) {
+		getElement(locator,isWaitRequired).click();
+	}
+	
+	protected void clickOnElement(String locator) {
+		getElement(locator,false).click();
+	}
+	
+	protected void enterTextValue(WebElement element, String textToBeEntered){
+		if(element.isEnabled())
+			element.sendKeys(textToBeEntered);
+		else
+			System.out.println("Element is not enabled");
+	}
+	
+	protected void enterTextValue(String locator, boolean isWaitRequired, String textToBeEntered){
+		enterTextValue(getElement(locator,isWaitRequired),textToBeEntered);
 	}
 	
 	public static void closeBrowser() {

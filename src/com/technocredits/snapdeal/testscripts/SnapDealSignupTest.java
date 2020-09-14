@@ -1,5 +1,7 @@
 package com.technocredits.snapdeal.testscripts;
 
+import java.util.ArrayList;
+
 import org.testng.Assert;
 import org.testng.annotations.*;
 
@@ -12,7 +14,8 @@ public class SnapDealSignupTest extends TestBase{
 		
 		String expectedUserName = "Aavruti Dalmia";
 		DashboardPage dashboardPage = getDashboardPage();
-		dashboardPage.signUpUsingFB();
+		ArrayList<String> credentialList = readCredentials();
+		dashboardPage.signUpUsingFB(credentialList.get(0), credentialList.get(1));
 		String actualUserName = dashboardPage.getSignInUserName();
 		Assert.assertEquals(actualUserName, expectedUserName);
 	}
