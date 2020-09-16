@@ -1,8 +1,7 @@
 package pages;
 
 import java.io.IOException;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 import base.PredefinedActions;
 import util.PropertyFileOperation;
@@ -11,6 +10,7 @@ public class DashboardPage extends PredefinedActions{
 
 	private static DashboardPage dashboardPage;
 	private PropertyFileOperation propOperation;
+	private String mainWindow;
 
 	private DashboardPage() {
 		try {
@@ -27,13 +27,20 @@ public class DashboardPage extends PredefinedActions{
 		return dashboardPage;
 	}
 
-	public void signUpUsingFB(String userName, String password) {		
+	private void signInHover() {
+		hoverToElement(getElement(propOperation.propReadValue("signInMenu")));
+	}
 
-		hoverToElement(getElement(propOperation.propReadValue("signInMenu")));	
-		clickOnElement(propOperation.propReadValue("loginBtn"),true);		
+	private void clickOnLogin() {			
+		clickOnElement(propOperation.propReadValue("loginBtn"),true);
+	}
+
+	private void switchToLoginFrame() {
 		switchToFrameByElement(propOperation.propReadValue("loginFrame"),true);		
+	}
+
+	private void loginUsingFB(String userName, String password) {
 		clickOnElement(propOperation.propReadValue("fbUserLoginBtn"));		
-		String MainWindow= getMainWindowHandleId();
 
 		// To handle all new opened window.				
 		Set<String> s1= getAllWindowHandleId();	
@@ -41,22 +48,38 @@ public class DashboardPage extends PredefinedActions{
 
 		while(i1.hasNext())			
 		{		
-			String ChildWindow=i1.next();	
-			if(!MainWindow.equalsIgnoreCase(ChildWindow))			
+			String childWindow=i1.next();	
+			if(!mainWindow.equalsIgnoreCase(childWindow))			
 			{
 				// Switching to Child window
-				switchToWindow(ChildWindow);	 
+				switchToWindow(childWindow);	 
 				enterTextValue(propOperation.propReadValue("fbEmailId"),true, userName);                			
 				enterTextValue(getElement(propOperation.propReadValue("fbPassword")), password);
 				clickOnElement(propOperation.propReadValue("fbLoginBtn"));
 			}		
-		}		
-		// Switching to Parent window i.e Main Window.
-		switchToWindow(MainWindow);
+		}	
+	}
 
+	private void switchToMainWindow() {
+		// Switching to Parent window i.e Main Window.
+		switchToWindow(mainWindow);
+	}
+
+	public void signUpUsingFB(String userName, String password) {	
+		signInHover();
+		clickOnLogin();		
+		switchToLoginFrame();
+		mainWindow = getMainWindowHandleId();
+		loginUsingFB(userName, password);		
+		switchToMainWindow();
 	}
 
 	public String getSignInUserName() {
 		return getElement(propOperation.propReadValue("acctUserName"),true).getText();
+	}
+
+	public List<String> getSignInHoverOptions(){
+		signInHover();				
+		return getAllElementsText(propOperation.propReadValue("hoverOptions"), true);
 	}
 }

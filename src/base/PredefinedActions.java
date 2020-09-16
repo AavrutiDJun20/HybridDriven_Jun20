@@ -1,5 +1,7 @@
 package base;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import org.openqa.selenium.By;
@@ -12,7 +14,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public abstract class PredefinedActions {
 
-	private static WebDriver driver;
+	static WebDriver driver;
 	private static Actions action;
 	private static WebDriverWait wait;
 
@@ -33,45 +35,30 @@ public abstract class PredefinedActions {
 	private String getLocatorType(String locator) {
 		return locator.split("]:-")[0].substring(1);
 	}
-	
+
 	private String getLocatorValue(String locator) {
 		return locator.split("]:-")[1];
 	}
 
-	protected WebElement getElement(String locator, boolean isWaitRequired) {
-		String locatorType = getLocatorType(locator);
-		String locatorValue = getLocatorValue(locator);
-		
+	private By byReferenceType(String locatorType, String locatorValue) {
 		switch(locatorType.toUpperCase()) {
 		case "XPATH" :
-			if(isWaitRequired)
-				return wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locatorValue)));
-			return driver.findElement(By.xpath(locatorValue));
+			return By.xpath(locatorValue);
 
 		case "ID" :
-			if(isWaitRequired)
-				return wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(locatorValue)));
-			return driver.findElement(By.id(locatorValue));	
-			
+			return By.id(locatorValue);
+
 		case "LINKTEXT" :
-			if(isWaitRequired)
-				return wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText(locatorValue)));
-			return driver.findElement(By.linkText(locatorValue));
-			
+			return By.linkText(locatorValue);
+
 		case "PARTIALLINKTEXT" :
-			if(isWaitRequired)
-				return wait.until(ExpectedConditions.visibilityOfElementLocated(By.partialLinkText(locatorValue)));
-			return driver.findElement(By.partialLinkText(locatorValue));
-			
+			return By.partialLinkText(locatorValue);
+
 		case "NAME" :
-			if(isWaitRequired)
-				return wait.until(ExpectedConditions.visibilityOfElementLocated(By.name(locatorValue)));
-			return driver.findElement(By.name(locatorValue));
-			
+			return By.name(locatorValue);
+
 		case "CLASSNAME" :
-			if(isWaitRequired)
-				return wait.until(ExpectedConditions.visibilityOfElementLocated(By.className(locatorValue)));
-			return driver.findElement(By.className(locatorValue));
+			return By.className(locatorValue);
 
 		default :
 			System.out.println("Invalid Locator Type");
@@ -79,14 +66,43 @@ public abstract class PredefinedActions {
 		}		
 	}
 
+	protected List<WebElement> getAllElements(String locator, boolean isWaitRequired) {
+		String locatorType = getLocatorType(locator);
+		String locatorValue = getLocatorValue(locator);
+		
+		if(isWaitRequired)
+			return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(byReferenceType(locatorType,locatorValue)));
+		return driver.findElements(byReferenceType(locatorType,locatorValue));		
+	}
+	
+	protected List<String> getAllElementsText(String locator, boolean isWaitRequired) {
+		List<WebElement> hoverElements= getAllElements(locator, isWaitRequired);
+		List<String> hoverElementsValue = new ArrayList<>();
+		
+		for(WebElement elements : hoverElements) {
+			hoverElementsValue.add(elements.getText());
+		}
+		
+		return hoverElementsValue;
+	}
+	
+	protected WebElement getElement(String locator, boolean isWaitRequired) {
+		String locatorType = getLocatorType(locator);
+		String locatorValue = getLocatorValue(locator);
+
+		if(isWaitRequired)
+			return wait.until(ExpectedConditions.visibilityOfElementLocated(byReferenceType(locatorType,locatorValue)));
+		return driver.findElement(byReferenceType(locatorType,locatorValue));
+	}
+
 	protected WebElement getElement(String locator) {
 		return getElement(locator, false);
 	}
-	
+
 	protected void hoverToElement(WebElement target) {
 		action.moveToElement(target).perform();
 	}
-	
+
 	protected void switchToFrameByElement(WebElement frameElement) {
 		driver.switchTo().frame(frameElement);
 	}
@@ -95,43 +111,43 @@ public abstract class PredefinedActions {
 		WebElement frameElement = getElement(locator, isWaitRequired);
 		switchToFrameByElement(frameElement);
 	}
-	
+
 	protected void switchToFrameByElement(String locator) {
 		WebElement frameElement = getElement(locator, false);
 		switchToFrameByElement(frameElement);
 	}
-	
+
 	protected String getMainWindowHandleId() {
 		return driver.getWindowHandle();
 	}
-	
+
 	protected Set<String> getAllWindowHandleId(){
 		return driver.getWindowHandles();
 	}
-	
+
 	protected void switchToWindow(String windowId) {
 		driver.switchTo().window(windowId);
 	}
-	
+
 	protected void clickOnElement(String locator, boolean isWaitRequired) {
 		getElement(locator,isWaitRequired).click();
 	}
-	
+
 	protected void clickOnElement(String locator) {
 		getElement(locator,false).click();
 	}
-	
+
 	protected void enterTextValue(WebElement element, String textToBeEntered){
 		if(element.isEnabled())
 			element.sendKeys(textToBeEntered);
 		else
 			System.out.println("Element is not enabled");
 	}
-	
+
 	protected void enterTextValue(String locator, boolean isWaitRequired, String textToBeEntered){
 		enterTextValue(getElement(locator,isWaitRequired),textToBeEntered);
 	}
-	
+
 	public static void closeBrowser() {
 		driver.close();
 	}
