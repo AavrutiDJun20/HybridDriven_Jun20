@@ -20,7 +20,7 @@ public class SnapDealSignupTest extends TestBase{
 		Assert.assertEquals(actualUserName, expectedUserName);
 	}
 	
-	@Test
+	@Test(enabled=false)
 	public void signUpHoverMenuTest() {
 		List<String> expectedHoverOptionsList = new ArrayList<>(Arrays.asList("Your Account", "Your Orders", "Shortlist", "SD Cash"));
 		DashboardPage dashboardPage = getDashboardPage();

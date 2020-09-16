@@ -3,6 +3,7 @@ package com.technocredits.snapdeal.testscripts;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import base.PredefinedActions;
@@ -34,7 +35,10 @@ public class TestBase {
 	}
 	
 	@AfterMethod
-	public void teardown() {
+	public void teardown(ITestResult result) {
+		if(result.getStatus() == ITestResult.FAILURE) {
+			PredefinedActions.captureScreenshot(result.getName());
+		}		
 		PredefinedActions.closeBrowser();
 	}
 }

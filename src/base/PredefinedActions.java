@@ -1,16 +1,15 @@
 package base;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.io.*;
+import java.util.*;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.google.common.io.Files;
 
 public abstract class PredefinedActions {
 
@@ -29,7 +28,7 @@ public abstract class PredefinedActions {
 		driver.manage().window().maximize();
 		driver.get(url);
 		action = new Actions(driver);
-		wait = new WebDriverWait(driver,60000);
+		wait = new WebDriverWait(driver,60);
 	}
 
 	private String getLocatorType(String locator) {
@@ -69,23 +68,23 @@ public abstract class PredefinedActions {
 	protected List<WebElement> getAllElements(String locator, boolean isWaitRequired) {
 		String locatorType = getLocatorType(locator);
 		String locatorValue = getLocatorValue(locator);
-		
+
 		if(isWaitRequired)
 			return wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(byReferenceType(locatorType,locatorValue)));
 		return driver.findElements(byReferenceType(locatorType,locatorValue));		
 	}
-	
+
 	protected List<String> getAllElementsText(String locator, boolean isWaitRequired) {
 		List<WebElement> hoverElements= getAllElements(locator, isWaitRequired);
 		List<String> hoverElementsValue = new ArrayList<>();
-		
+
 		for(WebElement elements : hoverElements) {
 			hoverElementsValue.add(elements.getText());
 		}
-		
+
 		return hoverElementsValue;
 	}
-	
+
 	protected WebElement getElement(String locator, boolean isWaitRequired) {
 		String locatorType = getLocatorType(locator);
 		String locatorValue = getLocatorValue(locator);
@@ -146,6 +145,17 @@ public abstract class PredefinedActions {
 
 	protected void enterTextValue(String locator, boolean isWaitRequired, String textToBeEntered){
 		enterTextValue(getElement(locator,isWaitRequired),textToBeEntered);
+	}
+
+	public static void captureScreenshot(String fileName) {
+		TakesScreenshot ts = (TakesScreenshot) driver;
+		File src = ts.getScreenshotAs(OutputType.FILE);
+		try {
+			Files.copy(src, new File(".//screenshot//" + fileName +".png"));
+		} catch (IOException e) {
+			System.out.println("Screenshot Filename not found");
+			e.printStackTrace();
+		}
 	}
 
 	public static void closeBrowser() {

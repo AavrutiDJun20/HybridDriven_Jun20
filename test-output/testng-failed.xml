@@ -6,8 +6,8 @@
       <class name="com.technocredits.snapdeal.testscripts.SnapDealSignupTest">
         <methods>
           <include name="setup"/>
-          <include name="snapDealTest"/>
           <include name="teardown"/>
+          <include name="verifySignUpUsingFBTest"/>
         </methods>
       </class> <!-- com.technocredits.snapdeal.testscripts.SnapDealSignupTest -->
     </classes>
