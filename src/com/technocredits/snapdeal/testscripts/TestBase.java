@@ -28,6 +28,8 @@ public class TestBase {
 			propOperation = new PropertyFileOperation(".//resources//config//FBCredentials.properties");
 			credentialList.add(propOperation.propReadValue("fbUserName"));
 			credentialList.add(propOperation.propReadValue("fbPassword"));
+			credentialList.add(propOperation.propReadValue("fbMobileNumber"));
+			credentialList.add(propOperation.propReadValue("fbMobilePwd"));
 		} catch (IOException e) {
 			System.out.println("Credentials not found");
 		}

@@ -31,7 +31,8 @@ public class DashboardPage extends PredefinedActions{
 		hoverToElement(getElement(propOperation.propReadValue("signInMenu")));
 	}
 
-	private void clickOnLogin() {			
+	private void clickOnLogin() {	
+		signInHover();
 		clickOnElement(propOperation.propReadValue("loginBtn"),true);
 	}
 
@@ -66,7 +67,6 @@ public class DashboardPage extends PredefinedActions{
 	}
 
 	public void signUpUsingFB(String userName, String password) {	
-		signInHover();
 		clickOnLogin();		
 		switchToLoginFrame();
 		mainWindow = getMainWindowHandleId();
@@ -75,11 +75,26 @@ public class DashboardPage extends PredefinedActions{
 	}
 
 	public String getSignInUserName() {
-		return getElement(propOperation.propReadValue("acctUserName"),true).getText();
+		return getElementText(propOperation.propReadValue("acctUserName"),true);
+	}	
+	
+	public boolean isMobileEmailInputBoxEnabled() {
+		return isElementEnabled(propOperation.propReadValue("loginUserName"),true);
 	}
-
+	
 	public List<String> getSignInHoverOptions(){
 		signInHover();				
 		return getAllElementsText(propOperation.propReadValue("hoverOptions"), true);
+	}
+	
+	public void doLogin(String userId, String userPassword) {
+		mainWindow = getMainWindowHandleId();
+		clickOnLogin();
+		switchToLoginFrame();	
+		enterTextValue(propOperation.propReadValue("loginUserName"), false, userId);
+		clickOnElement(propOperation.propReadValue("continueButton"));
+		enterTextValue(propOperation.propReadValue("loginPassword"), true, userPassword);
+		clickOnElement(propOperation.propReadValue("keepLoggedInChecbox"));
+		clickOnElement(propOperation.propReadValue("signInLoginButton"));
 	}
 }

@@ -3,13 +3,13 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="com.technocredits.snapdeal.testscripts.SnapDealSignupTest">
+      <class name="com.technocredits.snapdeal.testscripts.SnapDealLoginTest">
         <methods>
           <include name="setup"/>
           <include name="teardown"/>
-          <include name="verifySignUpUsingFBTest"/>
+          <include name="loginVerification"/>
         </methods>
-      </class> <!-- com.technocredits.snapdeal.testscripts.SnapDealSignupTest -->
+      </class> <!-- com.technocredits.snapdeal.testscripts.SnapDealLoginTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

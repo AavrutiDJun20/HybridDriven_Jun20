@@ -146,6 +146,14 @@ public abstract class PredefinedActions {
 	protected void enterTextValue(String locator, boolean isWaitRequired, String textToBeEntered){
 		enterTextValue(getElement(locator,isWaitRequired),textToBeEntered);
 	}
+	
+	protected String getElementText(String locator, boolean isWaitRequired) {
+		return getElement(locator, isWaitRequired).getText();
+	}
+	
+	protected boolean isElementEnabled(String locator, boolean isWaitRequired) {
+		return getElement(locator, isWaitRequired).isEnabled();
+	}
 
 	public static void captureScreenshot(String fileName) {
 		TakesScreenshot ts = (TakesScreenshot) driver;

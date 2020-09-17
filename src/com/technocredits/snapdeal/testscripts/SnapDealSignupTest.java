@@ -17,7 +17,7 @@ public class SnapDealSignupTest extends TestBase{
 		ArrayList<String> credentialList = readCredentials();
 		dashboardPage.signUpUsingFB(credentialList.get(0), credentialList.get(1));
 		String actualUserName = dashboardPage.getSignInUserName();
-		Assert.assertEquals(actualUserName, expectedUserName);
+		Assert.assertEquals(actualUserName, expectedUserName,"UserName is not present, expected " + expectedUserName + " but received " + actualUserName);
 	}
 	
 	@Test(enabled=false)
