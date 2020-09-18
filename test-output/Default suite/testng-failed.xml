@@ -7,7 +7,7 @@
         <methods>
           <include name="setup"/>
           <include name="teardown"/>
-          <include name="loginVerification"/>
+          <include name="loginVerification" invocation-numbers="0"/>
         </methods>
       </class> <!-- com.technocredits.snapdeal.testscripts.SnapDealLoginTest -->
     </classes>

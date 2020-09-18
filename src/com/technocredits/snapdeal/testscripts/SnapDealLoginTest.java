@@ -1,21 +1,27 @@
 package com.technocredits.snapdeal.testscripts;
 
-import java.util.ArrayList;
+import java.io.IOException;
 
 import org.testng.Assert;
 import org.testng.annotations.*;
 
+import constant.ConstantPath;
 import pages.DashboardPage;
+import util.ExcelOperation;
 
 public class SnapDealLoginTest extends TestBase{
 
-	@Test
-	public void loginVerification() {
-		String expectedUserName = "Aavruti";
-		DashboardPage dashboardPage = getDashboardPage();		
-		ArrayList<String> credentialList = readCredentials();
-		dashboardPage.doLogin(credentialList.get(2), credentialList.get(3));
+	@Test(dataProvider="loginDataProvider")
+	public void loginVerification(String userId, String password, String userName) {
+		System.out.println(userId + password + userName);
+		DashboardPage dashboardPage = getDashboardPage();
+		dashboardPage.doLogin(userId, password);
 		String actualUserName = dashboardPage.getSignInUserName();
-		Assert.assertEquals(actualUserName, expectedUserName,"UserName is not present, expected " + expectedUserName + " but received " + actualUserName);
+		Assert.assertEquals(actualUserName, userName,"UserName is not present, expected " + userName + " but received " + actualUserName);
+	}
+	
+	@DataProvider(name="loginDataProvider")
+	public Object[][] loginData() throws IOException{
+		return ExcelOperation.getAllRowsData(ConstantPath.LOGINTESTDATA, ConstantPath.LOGINTESTDATASHEET);
 	}
 }
