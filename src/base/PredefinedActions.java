@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.*;
 
 import org.openqa.selenium.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -154,6 +155,15 @@ public abstract class PredefinedActions {
 	protected boolean isElementEnabled(String locator, boolean isWaitRequired) {
 		return getElement(locator, isWaitRequired).isEnabled();
 	}
+	
+	protected boolean isElementPresent(String locator, boolean isWaitRequired) {
+		try {
+			getElement(locator, isWaitRequired);
+			return true;
+		}catch(NoSuchElementException ne) {
+			return false;
+		}
+	}
 
 	public static void captureScreenshot(String fileName) {
 		TakesScreenshot ts = (TakesScreenshot) driver;
@@ -165,7 +175,17 @@ public abstract class PredefinedActions {
 			e.printStackTrace();
 		}
 	}
+	
+	protected void navigateToURL(String url) {
+		driver.navigate().to(url);
+	}
 
+	protected void openNewTab() {
+		//action.keyDown(Keys.CONTROL).sendKeys("t").keyUp(Keys.CONTROL).build().perform();		
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		js.executeScript("window.open()");
+	}
+	
 	public static void closeBrowser() {
 		driver.close();
 	}

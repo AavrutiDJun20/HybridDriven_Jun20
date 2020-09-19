@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.*;
 
 import base.PredefinedActions;
+import constant.ConstantPath;
 import util.PropertyFileOperation;
 
 public class DashboardPage extends PredefinedActions{
@@ -14,7 +15,7 @@ public class DashboardPage extends PredefinedActions{
 
 	private DashboardPage() {
 		try {
-			propOperation = new PropertyFileOperation(".//resources//config//DashboardPageProp.properties");
+			propOperation = new PropertyFileOperation(ConstantPath.LOCATORPATH +"DashboardPageProp.properties");
 		} catch (IOException e) {
 			System.out.println("Dashboard Page property file not found");
 			//Custom exception --> unchecked exception
@@ -93,8 +94,17 @@ public class DashboardPage extends PredefinedActions{
 		switchToLoginFrame();	
 		enterTextValue(propOperation.propReadValue("loginUserName"), false, userId);
 		clickOnElement(propOperation.propReadValue("continueButton"));
-		enterTextValue(propOperation.propReadValue("loginPassword"), true, userPassword);
-		clickOnElement(propOperation.propReadValue("keepLoggedInChecbox"));
-		clickOnElement(propOperation.propReadValue("signInLoginButton"));
+		if(isElementPresent(propOperation.propReadValue("otpTextBox"), true)) {
+			EmailPage emailPage = EmailPage.getEmailPageObject();
+			String otpText = emailPage.getOTP(userId,userPassword);
+			switchToLoginFrame();
+			enterTextValue(propOperation.propReadValue("otpTextBox"), false, otpText);
+			clickOnElement(propOperation.propReadValue("otpContinueButton"));
+		}
+		else {
+			enterTextValue(propOperation.propReadValue("loginPassword"), true, userPassword);
+			clickOnElement(propOperation.propReadValue("keepLoggedInChecbox"));
+			clickOnElement(propOperation.propReadValue("signInLoginButton"));
+		}		
 	}
 }

@@ -13,7 +13,6 @@ public class SnapDealLoginTest extends TestBase{
 
 	@Test(dataProvider="loginDataProvider")
 	public void loginVerification(String userId, String password, String userName) {
-		System.out.println(userId + password + userName);
 		DashboardPage dashboardPage = getDashboardPage();
 		dashboardPage.doLogin(userId, password);
 		String actualUserName = dashboardPage.getSignInUserName();

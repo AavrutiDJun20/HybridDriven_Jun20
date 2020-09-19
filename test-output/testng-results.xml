@@ -2,37 +2,37 @@
 <testng-results skipped="0" failed="0" total="1" passed="1">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="32931" started-at="2020-09-18T16:59:07Z" finished-at="2020-09-18T16:59:40Z">
+  <suite name="Default suite" duration-ms="103349" started-at="2020-09-19T18:32:00Z" finished-at="2020-09-19T18:33:43Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="32931" started-at="2020-09-18T16:59:07Z" finished-at="2020-09-18T16:59:40Z">
+    <test name="Default test" duration-ms="103349" started-at="2020-09-19T18:32:00Z" finished-at="2020-09-19T18:33:43Z">
       <class name="com.technocredits.snapdeal.testscripts.SnapDealLoginTest">
-        <test-method status="PASS" signature="setup()[pri:0, instance:com.technocredits.snapdeal.testscripts.SnapDealLoginTest@18be83e4]" name="setup" is-config="true" duration-ms="15925" started-at="2020-09-18T22:29:09Z" finished-at="2020-09-18T22:29:25Z">
+        <test-method status="PASS" signature="setup()[pri:0, instance:com.technocredits.snapdeal.testscripts.SnapDealLoginTest@18be83e4]" name="setup" is-config="true" duration-ms="15210" started-at="2020-09-20T00:02:01Z" finished-at="2020-09-20T00:02:16Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setup -->
-        <test-method status="PASS" signature="loginVerification(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.technocredits.snapdeal.testscripts.SnapDealLoginTest@18be83e4]" name="loginVerification" duration-ms="12406" started-at="2020-09-18T22:29:25Z" data-provider="loginDataProvider" finished-at="2020-09-18T22:29:37Z">
+        <test-method status="PASS" signature="loginVerification(java.lang.String, java.lang.String, java.lang.String)[pri:0, instance:com.technocredits.snapdeal.testscripts.SnapDealLoginTest@18be83e4]" name="loginVerification" duration-ms="82379" started-at="2020-09-20T00:02:16Z" data-provider="loginDataProvider" finished-at="2020-09-20T00:03:39Z">
           <params>
             <param index="0">
               <value>
-                <![CDATA[8485033276]]>
+                <![CDATA[aavrutid@yahoo.com]]>
               </value>
             </param>
             <param index="1">
               <value>
-                <![CDATA[viplove01]]>
+                <![CDATA[Viplove@01]]>
               </value>
             </param>
             <param index="2">
               <value>
-                <![CDATA[Aavruti]]>
+                <![CDATA[Aavruti Dalmia]]>
               </value>
             </param>
           </params>
           <reporter-output>
           </reporter-output>
         </test-method> <!-- loginVerification -->
-        <test-method status="PASS" signature="teardown(org.testng.ITestResult)[pri:0, instance:com.technocredits.snapdeal.testscripts.SnapDealLoginTest@18be83e4]" name="teardown" is-config="true" duration-ms="2904" started-at="2020-09-18T22:29:37Z" finished-at="2020-09-18T22:29:40Z">
+        <test-method status="PASS" signature="teardown(org.testng.ITestResult)[pri:0, instance:com.technocredits.snapdeal.testscripts.SnapDealLoginTest@18be83e4]" name="teardown" is-config="true" duration-ms="4709" started-at="2020-09-20T00:03:39Z" finished-at="2020-09-20T00:03:43Z">
           <params>
             <param index="0">
               <value>
